@@ -1,0 +1,38 @@
+*** Settings ***
+Resource          Excelfetch.txt
+Library           AutoItLibrary
+Library           SeleniumLibrary
+
+*** Variables ***
+${username}       ${EMPTY}
+${password}       ${EMPTY}
+${SW_SHOW}        5
+
+*** Keywords ***
+Login to flight Application
+                                                                    ${EMPTY}
+...    \    \    \    \    \    \    \    \    \    \    \    \    \    \    [Arguments]    ${username}    ${password}
+                                                                    ${EMPTY}
+...    \    \    \    \    \    \    \    \    \    \    \    \    \    \    Input Text    xpath://input[@name='email']    ${username}
+                                                                    ${EMPTY}
+...    \    \    \    \    \    \    \    \    \    \    \    \    \    \    Input Text    xpath://input[@name='passwd']    ${password}
+                                                                    ${EMPTY}
+...    \    \    \    \    \    \    \    \    \    \    \    \    \    \    Click Element    xpath://div[@class='btn']
+
+LoginOderCreation
+    Run    C:/Users/vsgee/Downloads/TrainingOrderSystem.exe
+    Win Wait Active    Sign in
+    WinSetState    Sign in    ${EMPTY}     ${SW_SHOW}
+    ${text}    Win Get Text    Sign in
+    log    ${text}
+    Control Set Text    Sign in    \    [NAME:txtUsername]    bp
+    sleep    1
+    Control Set Text    Sign in    \    [NAME:txtPassword]    password
+    sleep    1
+    Control Click    Sign in    \    [NAME:Button1]
+
+enteroption
+                                Win Wait Active    Options
+                                Control Set Text    Options    \    [NAME:txtOption]    1
+                                sleep    1
+                                Control Click    Options    \    [NAME:Button2]

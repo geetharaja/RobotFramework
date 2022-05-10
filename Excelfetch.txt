@@ -1,0 +1,42 @@
+*** Settings ***
+Library           ExcelRobot
+
+*** Variables ***
+${TC_Num}         ${EMPTY}
+${sData}          ${EMPTY}
+${columnname}     ${EMPTY}
+${Testcase}       ${EMPTY}
+${columncount}    ${EMPTY}
+${SheetName}      ${EMPTY}
+${TestCaseName}    ${EMPTY}
+${TestCaseColumn}    ${EMPTY}
+${Header}         ${EMPTY}
+${columnnum}      ${EMPTY}
+
+*** Keywords ***
+LoadExcelFile
+    [Arguments]    ${SheetName}    ${TestCaseName}    ${TestCaseColumn}
+    Open Excel    C:/Users/vsgee/AppData/Local/Programs/Excel/demo3.xls
+    ${sData}    Get data from Excel with given column    ${SheetName}    ${TestCaseName}    ${TestCaseColumn}
+    log    ${sData}
+    log    ${SheetName}
+    log    ${TestCaseName}
+    log    ${TestCaseColumn}
+    [Return]    ${sData}
+
+Get data from Excel with given column
+    [Arguments]    ${sSheetName}    ${sTestCaseName}    ${sTestCaseColumn}
+    log    ${sTestCaseColumn}
+    ${columncount}    Get Column Count    ${sSheetName}
+    FOR    ${x}    IN RANGE    0    ${columncount}
+        ${Header}    Read Cell Data    ${sSheetName}    ${x}    0
+        Run Keyword If    '${Header}'=='${sTestCaseColumn}'    Set Test Variable    ${columnnum}    ${x}
+    Log    ${columnnum}
+    END
+    ${itotalrows}    Get Row Count    ${sSheetName}
+    FOR    ${irownumber}    IN RANGE    1    ${itotalrows}+1
+        ${TC_Num}    Read Cell Data    ${sSheetName}    0    ${irownumber}
+    ${sSearchData}    Run Keyword If    '${TC_Num}'=='${sTestCaseName}'    Read Cell Data    ${sSheetName}    ${columnnum}    ${irownumber}
+        Run Keyword If    '${TC_Num}'=='${sTestCaseName}'    Exit For Loop
+    END
+    [Return]    ${sSearchData}

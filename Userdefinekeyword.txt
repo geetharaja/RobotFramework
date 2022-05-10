@@ -1,0 +1,7 @@
+*** Variables ***
+${cmp1}           2
+${cmp2}           2
+
+*** Keywords ***
+Comparetwovariables
+    Should Be Equal As Integers    ${cmp1}    ${cmp2}

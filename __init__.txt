@@ -1,0 +1,6 @@
+*** Settings ***
+Library           SeleniumLibrary
+Library           ExcelRobot
+Library           DatabaseLibrary
+Library           Collections
+Library           AutoItLibrary
